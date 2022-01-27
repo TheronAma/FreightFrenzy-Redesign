@@ -16,4 +16,10 @@ public class Robot {
         this.telemetry = telemetry;
         this.hardwareMap = hardwareMap;
     }
+
+    public void update() {
+        for(Subsystem system : subsystems) {
+            system.update();
+        }
+    }
 }
