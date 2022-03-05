@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
 @Config
 public class Lift implements Subsystem {
 
-    public static double KGRAVITY = 0.3;
+    public static double kG = 0.3;
 
 
     private DcMotorEx motorLeft;
@@ -22,6 +22,7 @@ public class Lift implements Subsystem {
 
     private Servo armServo1;
     private Servo armServo2;
+    private Servo turretServo, horizontalServo1, horizontalServo2;
 
     private AnalogSensor weightSensor;
     private ColorRangeSensor colorRangeSensor;
@@ -32,6 +33,11 @@ public class Lift implements Subsystem {
 
         armServo1 = hardwareMap.get(Servo.class, "armServo1");
         armServo2 = hardwareMap.get(Servo.class, "armServo2");
+
+        horizontalServo1 = hardwareMap.get(Servo.class,"horizontalServo1");
+        horizontalServo2 = hardwareMap.get(Servo.class, "horizontalServo2");
+
+        turretServo = hardwareMap.get(Servo.class, "turret");
 
         colorRangeSensor = hardwareMap.get(ColorRangeSensor.class, "freightColorSensor");
     }
@@ -50,4 +56,6 @@ public class Lift implements Subsystem {
     public void update(TelemetryPacket packet) {
 
     }
+
+
 }
