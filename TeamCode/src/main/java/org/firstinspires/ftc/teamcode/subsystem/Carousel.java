@@ -10,8 +10,8 @@ public class Carousel implements Subsystem {
     CRServo servo1, servo2;
 
     public Carousel(HardwareMap hardwareMap) {
-        servo1 = hardwareMap.get(CRServo.class, "carouselServo1");
-        servo2 = hardwareMap.get(CRServo.class, "carouselServo2");
+        servo1 = hardwareMap.get(CRServo.class, "carousel1");
+        servo2 = hardwareMap.get(CRServo.class, "carousel2");
     }
 
     @Override
