@@ -14,6 +14,8 @@ public class Robot {
 
     public Lift lift;
     public Drivetrain drive;
+    public Carousel carousel;
+    public Intake intake;
 
     private ArrayList<Subsystem> subsystems;
 
@@ -21,16 +23,30 @@ public class Robot {
         this.telemetry = telemetry;
         this.hardwareMap = hardwareMap;
 
+        drive = new Drivetrain(hardwareMap);
+        lift = new Lift(hardwareMap, telemetry);
+        carousel = new Carousel(hardwareMap);
+        intake = new Intake(hardwareMap);
+
         subsystems = new ArrayList<>();
-        subsystems.add((Subsystem) drive);
-        subsystems.add((Subsystem) lift);
-//        subsystems.add((Subsystem) drive);
-//        subsystems.add((Subsystem) drive);
+        subsystems.add(drive);
+        subsystems.add(lift);
+        subsystems.add(intake);
+        subsystems.add(carousel);
+    }
+
+
+    //Initializes hardware - NOTE: moves servos
+    public void init() {
+        for(Subsystem system : subsystems) {
+            system.init();
+        }
     }
 
     public void update() {
         for(Subsystem system : subsystems) {
             system.update();
         }
+        telemetry.update();
     }
 }
