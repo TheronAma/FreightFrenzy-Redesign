@@ -31,6 +31,6 @@ public class Carousel implements Subsystem {
 
     public void setPower(double power) {
         servo1.setPower(power);
-        servo2.setPower(-power);
+        servo2.setPower(power);
     }
 }

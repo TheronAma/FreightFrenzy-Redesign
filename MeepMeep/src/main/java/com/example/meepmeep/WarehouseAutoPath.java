@@ -15,8 +15,9 @@ public class WarehouseAutoPath {
         Pose2d START_POSE = new Pose2d(12, 63, Math.PI/2);
         Vector2d HUB_POS = new Vector2d(-12, 24);
         Pose2d BLUE_WAREHOUSE_POSE = new Pose2d(48, 66, 0);
+        Pose2d BLUE_WAREHOUSE_TRANSITION_POSE = new Pose2d(20, 68, 0);
 
-        double SCORE_DISTANCE = 35;
+        double SCORE_DISTANCE = 25;
         double SCORE_ANGLE = Math.toRadians(60);
 
 
@@ -27,24 +28,24 @@ public class WarehouseAutoPath {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(50, 45, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(60, 50, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(START_POSE)
                                 .lineToLinearHeading(SCORE_POSE)
-
+                                .waitSeconds(0.5)
                                 .setReversed(false)
-                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
-                                .setReversed(true)
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
-                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
+//                                .splineToSplineHeading(BLUE_WAREHOUSE_TRANSITION_POSE,BLUE_WAREHOUSE_POSE.getHeading())
+//                                .splineToConstantHeading(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
+//                                .setReversed(true)
+//                                .splineToConstantHeading(BLUE_WAREHOUSE_TRANSITION_POSE.vec(),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
+//                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
 
-                                .setReversed(false)
-                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
-                                .setReversed(true)
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
-                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
+//                                .setReversed(false)
+//                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
+//                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
+//                                .setReversed(true)
+//                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
+//                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
 
 //                                .setReversed(false)
 //                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
@@ -60,30 +61,30 @@ public class WarehouseAutoPath {
 //                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
 //                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
 
-                                .setReversed(false)
-                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
-                                .setReversed(true)
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
-                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
-
-                                .setReversed(false)
-                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
-                                .setReversed(true)
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
-                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
-
-                                .setReversed(false)
-                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
-                                .setReversed(true)
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
-                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
-
-                                .setReversed(false)
-                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
-                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
+//                                .setReversed(false)
+//                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
+//                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
+//                                .setReversed(true)
+//                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
+//                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
+//
+//                                .setReversed(false)
+//                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
+//                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
+//                                .setReversed(true)
+//                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
+//                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
+//
+//                                .setReversed(false)
+//                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
+//                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
+//                                .setReversed(true)
+//                                .splineTo(BLUE_WAREHOUSE_POSE.vec().minus(new Vector2d(20,0)),BLUE_WAREHOUSE_POSE.getHeading()+Math.PI)
+//                                .splineToSplineHeading(SCORE_POSE,SCORE_POSE.getHeading() + Math.PI)
+//
+//                                .setReversed(false)
+//                                .splineToSplineHeading(BLUE_WAREHOUSE_POSE.minus(new Pose2d(20,0,0)),BLUE_WAREHOUSE_POSE.getHeading())
+//                                .splineTo(BLUE_WAREHOUSE_POSE.vec(), BLUE_WAREHOUSE_POSE.getHeading())
 
                                 .build()
                 );

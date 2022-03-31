@@ -3,16 +3,21 @@ package org.firstinspires.ftc.teamcode.subsystem.lift;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.Range;
 import static org.firstinspires.ftc.teamcode.subsystem.lift.LiftConstants.*;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
 
 @Config
@@ -23,13 +28,13 @@ public class Lift implements Subsystem {
     private DcMotorEx motor1;
     private DcMotorEx motor2;
 
-    private Servo armServo1;
-    private Servo armServo2;
+    private ServoImplEx armServo1;
+    private ServoImplEx armServo2;
     private Servo turretServo, horizontalServo1, horizontalServo2;
     private Servo doorServo;
 
     private AnalogSensor weightSensor;
-    private ColorRangeSensor colorRangeSensor;
+    private RevColorSensorV3 colorRangeSensor;
 
     //constants in inches and RPM, everything else unitless
     private static double UP_WINCH_RADIUS = 40./25.4;
@@ -55,9 +60,13 @@ public class Lift implements Subsystem {
         //reverse correctly
         motor1.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        armServo1 = hardwareMap.get(Servo.class, "botArm");
-        armServo2 = hardwareMap.get(Servo.class, "topArm");
+        armServo1 = hardwareMap.get(ServoImplEx.class, "botArm");
+        armServo2 = hardwareMap.get(ServoImplEx.class, "topArm");
+        armServo1.setPwmRange(new PwmControl.PwmRange(500,2500));
+        armServo2.setPwmRange(new PwmControl.PwmRange(500,2500));
         armServo2.setDirection(Servo.Direction.REVERSE);
+
+
 
         horizontalServo1 = hardwareMap.get(Servo.class,"botLinkage");
         horizontalServo2 = hardwareMap.get(Servo.class, "topLinkage");
@@ -67,7 +76,8 @@ public class Lift implements Subsystem {
 
         turretServo = hardwareMap.get(Servo.class, "turret");
 
-        colorRangeSensor = hardwareMap.get(ColorRangeSensor.class, "freightColorSensor");
+        colorRangeSensor = hardwareMap.get(RevColorSensorV3.class, "freightColorSensor");
+
 
         bottomOffset = motor2.getCurrentPosition();
 
@@ -105,6 +115,10 @@ public class Lift implements Subsystem {
     public void open() { }
 
     public void close() { }
+
+    public double getDistance() {
+        return colorRangeSensor.getDistance(DistanceUnit.INCH);
+    }
 
     public void setPower(double power) {
         power = Range.clip(power, -0.3,MAX_POWER);
