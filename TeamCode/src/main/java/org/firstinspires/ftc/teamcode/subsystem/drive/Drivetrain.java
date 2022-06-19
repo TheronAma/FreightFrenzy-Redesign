@@ -28,6 +28,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceRunner;
@@ -55,13 +56,13 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.kV;
  */
 @Config
 public class Drivetrain extends MecanumDrive implements Subsystem {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(7, 0, 0.2);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0.4);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(5, 0, 0.4);
 
-    public static double LATERAL_MULTIPLIER = 1;
+    public static double LATERAL_MULTIPLIER = 1.0;
 
     public static double VX_WEIGHT = 1;
-    public static double VY_WEIGHT = 1.2;
+    public static double VY_WEIGHT = 1.3;
     public static double OMEGA_WEIGHT = 0.7;
 
     private TrajectorySequenceRunner trajectorySequenceRunner;
@@ -81,7 +82,7 @@ public class Drivetrain extends MecanumDrive implements Subsystem {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
 
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
-                new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.5);
+                new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.3);
 
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
 
@@ -151,6 +152,8 @@ public class Drivetrain extends MecanumDrive implements Subsystem {
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
     }
+
+    public void stopTrajectory() { trajectorySequenceRunner.stopFollowing(); }
 
     @Override
     public void init() {}
@@ -283,6 +286,10 @@ public class Drivetrain extends MecanumDrive implements Subsystem {
             wheelPositions.add(encoderTicksToInches(motor.getCurrentPosition()));
         }
         return wheelPositions;
+    }
+
+    public Orientation getOrientation() {
+        return imu.getAngularOrientation();
     }
 
     @Override

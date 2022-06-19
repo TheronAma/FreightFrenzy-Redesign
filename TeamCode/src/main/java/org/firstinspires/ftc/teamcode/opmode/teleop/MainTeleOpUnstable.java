@@ -12,12 +12,14 @@ import org.firstinspires.ftc.teamcode.subsystem.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.lift.LiftConstants;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
-public class MainTeleOp extends LinearOpMode {
+public class MainTeleOpUnstable extends LinearOpMode {
 
     private Robot robot;
     private ScoreMode mode;
     private State state;
     private ElapsedTime timer;
+
+    private double xVelocity;
 
     private GamepadEx gamepadEx2, gamepadEx1;
 
@@ -84,6 +86,8 @@ public class MainTeleOp extends LinearOpMode {
 
             //anti-tip + regular teleop code - ONLY ON PITCH RIGHT NOW
             double pitch = robot.drive.getOrientation().secondAngle;
+
+            xVelocity = robot.drive.getPoseVelocity().getX();
 
             robot.drive.setWeightedDrivePower(
                     new Pose2d(
@@ -162,7 +166,7 @@ public class MainTeleOp extends LinearOpMode {
                     if(gamepadEx1.wasJustPressed(GamepadKeys.Button.Y)) {
                         carouselState = CarouselState.RIGHT_SLOW;
                         carouselTimer.reset();
-//                          robot.carousel.setPower(0.5);
+//                        robot.carousel.setPower(0.5);
                     }
                     if(gamepadEx1.wasJustPressed(GamepadKeys.Button.X)) {
                         carouselState = CarouselState.LEFT_SLOW;
@@ -171,25 +175,25 @@ public class MainTeleOp extends LinearOpMode {
                     }
                     break;
                 case LEFT_SLOW:
-                    if(carouselTimer.milliseconds() < 1000) {
-                        robot.carousel.setPower(-0.25);
+                    if(carouselTimer.milliseconds() < 800) {
+                        robot.carousel.setPower(-0.3);
                     }
-                    if(carouselTimer.milliseconds() > 1000) {
+                    if(carouselTimer.milliseconds() > 800) {
                         robot.carousel.setPower(-1);
                     }
-                    if(carouselTimer.milliseconds() > 1500) {
+                    if(carouselTimer.milliseconds() > 1300) {
                         robot.carousel.setPower(0);
                         carouselState = CarouselState.IDLE;
                     }
                     break;
                 case RIGHT_SLOW:
-                    if(carouselTimer.milliseconds() < 1000) {
-                        robot.carousel.setPower(0.25);
+                    if(carouselTimer.milliseconds() < 800) {
+                        robot.carousel.setPower(0.3);
                     }
-                    if(carouselTimer.milliseconds() > 1000) {
+                    if(carouselTimer.milliseconds() > 800) {
                         robot.carousel.setPower(1);
                     }
-                    if(carouselTimer.milliseconds() > 1500) {
+                    if(carouselTimer.milliseconds() > 1300) {
                         robot.carousel.setPower(0);
                         carouselState = CarouselState.IDLE;
                     }
@@ -245,18 +249,18 @@ public class MainTeleOp extends LinearOpMode {
                 case INTAKING:
                     robot.lift.setDoorPos(LiftConstants.DOOR_READY_POS);
                     if (timer.milliseconds() > 300) {
-                        robot.intake.setPower(1);
+                        robot.intake.setPower(0.9);
                         robot.lift.setDoorPos(LiftConstants.DOOR_READY_POS);
                     }
-                    if (robot.lift.getDistance() < 1.5 && timer.milliseconds() > 300) {
+                    if (robot.lift.getDistance() < 1.4) {
                         state = State.READY_TO_EXTEND;
-                        readyToExtendTransition();
-                        robot.intake.setPower(0.5);
+                        robot.lift.setDoorPos(LiftConstants.DOOR_CLOSE_POS);
+                        robot.intake.setPower(0.6);
                         timer.reset();
                     }
                     if (gamepadEx2.wasJustPressed(GamepadKeys.Button.A)) {
                         state = State.READY_TO_EXTEND;
-                        robot.intake.setPower(-0.25);
+                        robot.intake.setPower(0.6);
                         robot.lift.setDoorPos(LiftConstants.DOOR_CLOSE_POS);
                         readyToExtendTransition();
                         timer.reset();
@@ -268,27 +272,18 @@ public class MainTeleOp extends LinearOpMode {
                     break;
                 case READY_TO_EXTEND:
 
-//                    if(timer.milliseconds() > 200) {
-//                        readyToExtendTransition();
-//                    }
-//                    if(timer.milliseconds() > 450 && ((mode == ScoreMode.LEFT || mode == ScoreMode.RIGHT))) {
-//                        robot.intake.setPower(-0.6);
-//                    }
-                    if(timer.milliseconds() < 50) {
-                        robot.intake.setPower(1);
-                    } else if(timer.milliseconds() < 200) {
-                        robot.intake.setPower(-1);
-                    } else if(timer.milliseconds() < 400) {
-                        robot.intake.setPower(1);
-                    } else {
-                        robot.intake.setPower(-0.6);
+                    if(timer.milliseconds() > 200) {
+                        readyToExtendTransition();
                     }
-                    if(timer.milliseconds() > 650 && (mode == ScoreMode.LEFT || mode == ScoreMode.RIGHT)){
+                    if(timer.milliseconds() > 450 && ((mode == ScoreMode.LEFT || mode == ScoreMode.RIGHT))) {
+                        robot.intake.setPower(-0.8);
+                    }
+                    if(timer.milliseconds() > 650) {
+                        robot.intake.setPower(-0.8);
+                    }
+                    if(timer.milliseconds() > 900 && (mode == ScoreMode.LEFT || mode == ScoreMode.RIGHT)){
                         state = State.VERTICAL_AND_ROTATE_TURRET;
                         verticalAndRotateTurretTransition();
-                    }
-                    if(timer.milliseconds() > 300 && (mode == ScoreMode.HIGH || mode==ScoreMode.LOW || mode == ScoreMode.MID)) {
-                        robot.lift.setHorizontalPos(LiftConstants.HORIZONTAL_RETRACT_POS);
                     }
                     if (gamepadEx2.wasJustPressed(GamepadKeys.Button.A)) {
                         state = State.VERTICAL_AND_ROTATE_TURRET;
@@ -302,23 +297,16 @@ public class MainTeleOp extends LinearOpMode {
                 case VERTICAL_AND_ROTATE_TURRET:
                     switch(mode){
                         case LOW:
-                            state = State.EXTEND_ARM;
-                            extendArmTransition();
-                            break;
                         case MID:
-                            if(timer.milliseconds() > 200) {
-                                state = State.EXTEND_ARM;
-                                extendArmTransition();
-                            }
                         case HIGH:
-                            if(timer.milliseconds() > 350) {
+                            if(timer.milliseconds() > 400) {
                                 state = State.EXTEND_ARM;
                                 extendArmTransition();
                             }
                             break;
                         case LEFT:
                         case RIGHT:
-                            if(timer.milliseconds() > 250) {
+                            if(timer.milliseconds() > 300) {
                                 extendArmTransition();
                                 state = State.EXTEND_ARM;
                             }
@@ -339,8 +327,8 @@ public class MainTeleOp extends LinearOpMode {
                         openDoorTransition();
                     }
                     if(gamepadEx2.wasJustPressed(GamepadKeys.Button.B) || gamepadEx1.wasJustPressed(GamepadKeys.Button.B)) {
-                        state = State.READY_TO_EXTEND;
-                        readyToExtendTransition();
+                        state = State.VERTICAL_AND_ROTATE_TURRET;
+                        verticalAndRotateTurretTransition();
                     }
                     break;
                 case OPEN_DOOR:
@@ -355,7 +343,7 @@ public class MainTeleOp extends LinearOpMode {
                             break;
                         case RIGHT:
                         case LEFT:
-                            if(timer.milliseconds() > 350) {
+                            if(timer.milliseconds() > 300) {
                                 state = State.RETRACT_ARM;
                                 retractArmTransition();
                             }

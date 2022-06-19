@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystem.drive.Drivetrain;
@@ -16,6 +17,7 @@ public class Robot {
     public Drivetrain drive;
     public Carousel carousel;
     public Intake intake;
+    public Servo cap;
 
     private ArrayList<Subsystem> subsystems;
 
@@ -27,6 +29,7 @@ public class Robot {
         lift = new Lift(hardwareMap, telemetry);
         carousel = new Carousel(hardwareMap);
         intake = new Intake(hardwareMap);
+        cap = hardwareMap.get(Servo.class, "cap");
 
         subsystems = new ArrayList<>();
         subsystems.add(drive);
@@ -41,6 +44,7 @@ public class Robot {
         for(Subsystem system : subsystems) {
             system.init();
         }
+        cap.setPosition(0.95);
     }
 
     public void update() {

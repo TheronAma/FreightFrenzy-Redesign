@@ -17,6 +17,7 @@ import static org.firstinspires.ftc.teamcode.subsystem.lift.LiftConstants.*;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
 
@@ -101,6 +102,8 @@ public class Lift implements Subsystem {
         power = 0.2;
         if(targetHeight == 0 && currentHeight < 0.8) {
             setPower(0);
+        } else if(motor1.getPower() > 0.5 && motor1.getCurrent(CurrentUnit.AMPS) > 10) {
+            setPower(-1);
         } else {
             power += pid.calculate(currentHeight);
             setPower(power);
@@ -110,6 +113,14 @@ public class Lift implements Subsystem {
     @Override
     public void update(TelemetryPacket packet) {
 
+    }
+
+    public double getArmPosition() {
+        return armServo1.getPosition();
+    }
+
+    public double getTurretPosition() {
+        return turretServo.getPosition();
     }
 
     public void open() { }

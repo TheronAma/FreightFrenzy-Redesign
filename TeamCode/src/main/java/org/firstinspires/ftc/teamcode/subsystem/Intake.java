@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 public class Intake implements Subsystem {
 
     private DcMotorEx motor;
@@ -13,6 +15,14 @@ public class Intake implements Subsystem {
         motor = hardwareMap.get(DcMotorEx.class, "intake");
         //maybe reverse
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+
+    public double getCurrent() {
+        return motor.getCurrent(CurrentUnit.AMPS);
+    }
+
+    public double getPower() {
+        return motor.getPower();
     }
 
     @Override

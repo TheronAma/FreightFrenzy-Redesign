@@ -6,12 +6,12 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class MeepMeepTest {
+public class DuckAutoPath {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
-        Pose2d START_POSE = new Pose2d(-39, 63, Math.PI/2);
+        Pose2d START_POSE = new Pose2d(-36, 63, Math.PI/2);
         Vector2d HUB_POS = new Vector2d(-12, 24);
-        Pose2d DUCK_POSE = new Pose2d(-64, 64, Math.PI/2);
+        Pose2d DUCK_POSE = new Pose2d(-64, 64, 0);
 
         double SCORE_DISTANCE = 25;
         double SCORE_ANGLE = Math.toRadians(120);
@@ -28,15 +28,9 @@ public class MeepMeepTest {
                         drive.trajectorySequenceBuilder(START_POSE)
                                 .lineToLinearHeading(SCORE_POSE)
                                 .waitSeconds(0.4)
-                                .lineToLinearHeading(DUCK_POSE.minus(new Pose2d(0,10,0)))
+                                .splineTo(DUCK_POSE.minus(new Pose2d(0,10,0)).vec(), DUCK_POSE.getHeading())
                                 .lineToConstantHeading(DUCK_POSE.vec())
-                                .build()
+                        .build()
                 );
-
-        meepMeep.setBackground(MeepMeep.Background.FIELD_FREIGHTFRENZY_ADI_DARK)
-                .setDarkMode(true)
-                .setBackgroundAlpha(0.95f)
-                .addEntity(myBot)
-                .start();
     }
 }
