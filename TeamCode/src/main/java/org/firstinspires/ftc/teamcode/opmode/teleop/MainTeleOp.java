@@ -628,6 +628,7 @@ public class MainTeleOp extends LinearOpMode {
                 break;
             case LEFT:
                 robot.lift.setTargetHeight(LiftConstants.LOW_HUB_HEIGHT);
+                robot.lift.setTargetHeight(LiftConstants.LOW_HUB_HEIGHT);
                 robot.lift.setTurretPosition(LiftConstants.TURRET_LEFT_POS);
                 robot.lift.setArmPos(LiftConstants.ARM_UP_POS);
                 robot.lift.setHorizontalPos(LiftConstants.HORIZONTAL_READY_SIDE_POS);

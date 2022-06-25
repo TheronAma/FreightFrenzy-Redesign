@@ -123,6 +123,11 @@ public class Lift implements Subsystem {
         return turretServo.getPosition();
     }
 
+    public double getHorizontalPosition1() {return horizontalServo1.getPosition(); }
+
+    public double getHorizontalPosition2() {return horizontalServo2.getPosition(); }
+
+
     public void open() { }
 
     public void close() { }

@@ -13,7 +13,7 @@ public class LiftConstants {
     public static double TURRET_LEFT_POS = 0.11;
     public static double TURRET_RIGHT_POS = 0.81;
 
-    public static double ARM_INTAKE_POS = 0.16;
+    public static double ARM_INTAKE_POS = 0.11;
     public static double ARM_READY_POS = 0.34;
     public static double ARM_UP_POS = 0.63;
     public static double ARM_UP_SIDE_POS = 0.63;
@@ -21,12 +21,12 @@ public class LiftConstants {
     public static double ARM_SCORE_HUB_LOW_POS = 1;
     public static double ARM_SCORE_SHARED_POS = 0.3;
 
-    public static double HORIZONTAL_RETRACT_POS = 0.6;
-    public static double HORIZONTAL_READY_BACK_POS = 0.54;
-    public static double HORIZONTAL_READY_SIDE_POS = 0.46;
-    public static double HORIZONTAL_TELE_OP_EXTEND_POS = 0.59;
-    public static double HORIZONTAL_LEFT_SHARED_POS = 0.49;
-    public static double HORIZONTAL_RIGHT_SHARED_POS = 0.48;
+    public static double HORIZONTAL_RETRACT_POS = 0.57;
+    public static double HORIZONTAL_READY_BACK_POS = 0.49;
+    public static double HORIZONTAL_READY_SIDE_POS = 0.41;
+    public static double HORIZONTAL_TELE_OP_EXTEND_POS = 0.54;
+    public static double HORIZONTAL_LEFT_SHARED_POS = 0.44;
+    public static double HORIZONTAL_RIGHT_SHARED_POS = 0.43;
 
     public static double DOOR_READY_POS = 0.54;
     public static double DOOR_BACK_OUTPUT_SCORE_POS = 0.38;

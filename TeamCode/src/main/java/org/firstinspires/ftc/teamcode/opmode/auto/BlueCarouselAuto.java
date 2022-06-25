@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.lift.LiftConstants;
 
 @Autonomous()
-public class BlueCarouselAuto extends LinearOpMode {
+public class  BlueCarouselAuto extends LinearOpMode {
     Pose2d START_POSE = new Pose2d(-39, 63, Math.PI/2);
     Vector2d HUB_POS = new Vector2d(-12, 27);
     Pose2d DUCK_POSE = new Pose2d(-74, 50, Math.PI/2);

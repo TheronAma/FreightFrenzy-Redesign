@@ -17,7 +17,7 @@ public class LiftTest extends LinearOpMode {
         lift = new Lift(hardwareMap, telemetry);
         waitForStart();
         while(!isStopRequested() && opModeIsActive()) {
-            lift.setPower(-gamepad1.right_stick_y);
+            lift.setPower(-gamepad1.left_stick_y);
             telemetry.addData("Height",lift.getHeight());
             telemetry.update();
         }
